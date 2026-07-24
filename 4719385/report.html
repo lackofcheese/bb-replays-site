@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mahaha vs Slam Union — match report</title>
+<style>
+:root {
+  --ground: #F1F3EC; --surface: #FAFBF7; --ink: #232B22;
+  --muted: #5D675C; --accent: #2E7D4F; --rule: #D6DDD2;
+  --bb-pitch: #E4EDE1; --bb-grid: #8A948A;
+  --bb-de: #CBC5F4; --bb-de-line: #534AB7; --bb-de-text: #26215C;
+  --bb-eu: #9BE0C6; --bb-eu-line: #0F6E56; --bb-eu-text: #04342C;
+  --bb-tz: #D8504F; --bb-ann: #A66E12; --bb-ann-fill: #FAEEDA;
+  --bb-text: #3A443A; --bb-hl: #C2427C;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --ground: #151912; --surface: #1C221B; --ink: #E4E8DF;
+  --muted: #9AA697; --accent: #5FB98A; --rule: #333B31;
+  --bb-pitch: #202B1E; --bb-grid: #6A756A;
+  --bb-de: #3C3489; --bb-de-line: #AFA9EC; --bb-de-text: #E4E1FA;
+  --bb-eu: #085041; --bb-eu-line: #5DCAA5; --bb-eu-text: #D9F4E9;
+  --bb-tz: #E24B4A; --bb-ann: #E0A33E; --bb-ann-fill: #3A2F14;
+  --bb-text: #C6CEC3; --bb-hl: #ED93B1;
+} }
+:root[data-theme="dark"] {
+  --ground: #151912; --surface: #1C221B; --ink: #E4E8DF;
+  --muted: #9AA697; --accent: #5FB98A; --rule: #333B31;
+  --bb-pitch: #202B1E; --bb-grid: #6A756A;
+  --bb-de: #3C3489; --bb-de-line: #AFA9EC; --bb-de-text: #E4E1FA;
+  --bb-eu: #085041; --bb-eu-line: #5DCAA5; --bb-eu-text: #D9F4E9;
+  --bb-tz: #E24B4A; --bb-ann: #E0A33E; --bb-ann-fill: #3A2F14;
+  --bb-text: #C6CEC3; --bb-hl: #ED93B1;
+}
+:root[data-theme="light"] {
+  --ground: #F1F3EC; --surface: #FAFBF7; --ink: #232B22;
+  --muted: #5D675C; --accent: #2E7D4F; --rule: #D6DDD2;
+  --bb-pitch: #E4EDE1; --bb-grid: #8A948A;
+  --bb-de: #CBC5F4; --bb-de-line: #534AB7; --bb-de-text: #26215C;
+  --bb-eu: #9BE0C6; --bb-eu-line: #0F6E56; --bb-eu-text: #04342C;
+  --bb-tz: #D8504F; --bb-ann: #A66E12; --bb-ann-fill: #FAEEDA;
+  --bb-text: #3A443A; --bb-hl: #C2427C;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); margin: 0;
+  font: 17px/1.65 Charter, "Iowan Old Style", Georgia, serif;
+  overflow-wrap: anywhere; }
+main { width: 100%; max-width: 60rem; margin: 0 auto;
+  padding: 2.5rem 1.25rem 5rem; }
+main > p, main > ul, main > ol, main > h1, main > h2, main > h3 {
+  max-width: 44rem; margin-left: auto; margin-right: auto; }
+h1, h2, h3 { font-family: system-ui, sans-serif; font-weight: 700;
+  letter-spacing: -0.015em; line-height: 1.25; text-wrap: balance; }
+h1 { font-size: 1.9rem; margin: 0.4rem auto 1rem; }
+h2 { font-size: 1.3rem; margin: 2.6rem auto 0.8rem; color: var(--accent); }
+.eyebrow { font-family: system-ui, sans-serif; font-size: 0.72rem;
+  font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); max-width: 44rem; margin: 0 auto; }
+.eyebrow a { color: inherit; text-underline-offset: 0.15em; }
+p { margin: 0 auto 1rem; }
+ul { padding-left: 1.4rem; }
+li { margin-bottom: 0.75rem; }
+code { font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85em; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 4px;
+  padding: 0.05em 0.35em; }
+figure.board { margin: 2rem auto; max-width: 56rem; }
+figure.board .scroll { overflow: hidden; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 10px;
+  overscroll-behavior: contain; touch-action: pan-x pan-y;
+  padding: 0.9rem 0.9rem 0.4rem; }
+figure.board svg { display: block; min-width: 0; width: 100%;
+  height: auto; }
+.board-tools { display: flex; align-items: center; justify-content: flex-end;
+  gap: 0.25rem; margin-bottom: 0.45rem; font: 600 0.75rem/1.2
+  system-ui, sans-serif; color: var(--muted); }
+.board-tools > span { margin-right: 0.25rem; }
+.board-tools button { min-height: 2rem; padding: 0.3rem 0.65rem;
+  border: 1px solid var(--rule); border-radius: 7px; background: var(--surface);
+  color: var(--ink); cursor: pointer; font: 650 0.76rem system-ui, sans-serif; }
+.board-tools button[aria-pressed="true"] { border-color: var(--accent);
+  background: var(--accent); color: var(--ground); }
+.board-tools button:focus-visible, figure.board .scroll:focus-visible,
+.board-text > summary:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 2px; }
+figure.board[data-board-mode="full"] .scroll { overflow: auto;
+  max-height: min(75vh, 42rem); }
+figure.board[data-board-mode="full"] svg { width: 814px; min-width: 814px;
+  max-width: none; }
+.bb-player { cursor: pointer; }
+.bb-player:focus { outline: none; }
+.bb-player:hover .bb-token-shape,
+.bb-player:focus-visible .bb-token-shape,
+.bb-player.is-selected .bb-token-shape { stroke: var(--accent);
+  stroke-width: 3px; filter: drop-shadow(0 0 2px var(--surface)); }
+.board-player-detail { display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 1rem; align-items: start; min-height: 3.2rem;
+  margin-top: 0.55rem; padding: 0.65rem 0.75rem; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--surface); color: var(--muted);
+  font: 0.82rem/1.4 system-ui, sans-serif; }
+.board-player-detail[hidden] { display: none; }
+.board-player-detail strong { display: block; color: var(--ink);
+  font-size: 0.9rem; }
+.board-player-detail button { border: 0; background: transparent;
+  color: var(--accent); cursor: pointer; font: 650 0.75rem system-ui; }
+.board-player-detail button:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 2px; }
+.board-text { margin-top: 0.45rem; font: 0.78rem/1.45 system-ui, sans-serif;
+  color: var(--muted); }
+.board-text > summary { width: fit-content; cursor: pointer; color: var(--accent);
+  font-weight: 650; }
+.board-text ul { columns: 2 17rem; margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.board-text li { break-inside: avoid; margin-bottom: 0.3rem; }
+figcaption { font-size: 0.88rem; color: var(--muted);
+  line-height: 1.55; padding: 0.7rem 0.4rem 0; max-width: 44rem;
+  margin: 0 auto; }
+.coach-note { max-width: 44rem; margin: 0.8rem auto 0;
+  border-left: 3px solid var(--bb-ann); background: var(--surface);
+  border-radius: 0 8px 8px 0; padding: 0.6rem 1rem;
+  font-size: 0.92rem; }
+.coach-note .who { font-family: system-ui, sans-serif;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--bb-ann);
+  margin-bottom: 0.25rem; }
+h3 { font-size: 1.05rem; margin: 1.8rem auto 0.6rem; max-width: 44rem; }
+details.board { max-width: 56rem; margin: 0.8rem auto 1.4rem; }
+details.board > summary { cursor: pointer; font-family: system-ui,
+  sans-serif; font-size: 0.85rem; font-weight: 600;
+  color: var(--accent); padding: 0.4rem 0.2rem; }
+details.board > summary:hover { text-decoration: underline; }
+nav.toc { max-width: 44rem; margin: 1.2rem auto 2rem;
+  font-family: system-ui, sans-serif; font-size: 0.9rem;
+  background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 0.8rem 1.2rem; display: flex;
+  flex-wrap: wrap; gap: 0.35rem 1.1rem; align-items: baseline; }
+.toc-label { color: var(--muted); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; }
+nav.toc a { color: var(--accent); text-decoration: none;
+  white-space: nowrap; }
+nav.toc a:hover { text-decoration: underline; }
+details.spoiler { max-width: 44rem; margin: 0 auto 1.25rem;
+  border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--surface); padding: 0.55rem 0.9rem; }
+details.spoiler > summary { cursor: pointer; color: var(--accent);
+  font: 600 0.85rem system-ui, sans-serif; }
+details.spoiler > p { margin: 0.75rem 0 0.25rem; }
+footer.sitenav { max-width: 44rem; margin: 3rem auto 0;
+  padding-top: 1.2rem; border-top: 1px solid var(--rule);
+  font-family: system-ui, sans-serif; font-size: 0.9rem; }
+footer.sitenav a { color: var(--accent); margin-right: 1.2rem; }
+.match-nav { max-width: 94rem; margin: 0 auto 1.25rem;
+  font-family: system-ui, sans-serif; }
+.match-nav-top { display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 0.15rem 1rem; margin-bottom: 0.3rem; }
+.match-back { display: inline-block; color: var(--muted); font-size: 0.85rem;
+  margin-bottom: 0.55rem; text-decoration: none; }
+.match-nav-top .match-back { margin-bottom: 0; }
+.match-back:hover { color: var(--accent); }
+.match-nav-row { display: flex; align-items: flex-end; gap: 1rem;
+  min-width: 0; border-bottom: 1px solid var(--rule); }
+/* One non-wrapping tab strip at every width. The `local` cover gradients
+   scroll away with the tabs to reveal the `scroll` edge shadows, so the cue
+   appears only on an edge that still hides a destination. The shadow stands in
+   for the hidden scrollbar, so it uses --muted rather than the faint --rule. */
+.page-tabs { display: flex; gap: 0.2rem; min-width: 0; overflow-x: auto;
+  overscroll-behavior-inline: contain; scrollbar-width: none;
+  background:
+    linear-gradient(to right, var(--ground) 55%, transparent)
+      left center / 1.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--ground) 55%, transparent)
+      right center / 1.5rem 100% no-repeat local,
+    linear-gradient(to right, var(--muted), transparent)
+      left center / 0.85rem 100% no-repeat scroll,
+    linear-gradient(to left, var(--muted), transparent)
+      right center / 0.85rem 100% no-repeat scroll; }
+.page-tabs::-webkit-scrollbar { display: none; }
+.page-tabs a { color: var(--muted); text-decoration: none;
+  font-size: 0.88rem; font-weight: 650; white-space: nowrap;
+  padding: 0.63rem 0.8rem 0.58rem; border-bottom: 3px solid transparent; }
+.page-tabs a:hover { color: var(--ink); }
+.page-tabs a.active { color: var(--accent); border-bottom-color: var(--accent); }
+.page-tabs a:focus-visible { outline: none; color: var(--ink);
+  background: var(--surface); box-shadow: inset 0 0 0 2px var(--accent);
+  border-radius: 6px; }
+/* Forced colours drop the inset shadow, and focus is how a keyboard reader
+   scrolls an off-screen destination into the strip. */
+@media (forced-colors: active) {
+  .page-tabs a:focus-visible { outline: 2px solid CanvasText;
+    outline-offset: -2px; }
+}
+.match-back:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 2px; border-radius: 3px; }
+.view-switch { display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.2rem 0.8rem; min-width: 0; }
+.advanced-switch { display: inline-flex; align-items: center; gap: 0.35rem;
+  color: var(--muted); cursor: pointer; font-size: 0.78rem; font-weight: 650; }
+.advanced-switch input { width: 2.2rem; height: 1.2rem; margin: 0;
+  accent-color: var(--accent); cursor: pointer; }
+.advanced-switch input:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 2px; }
+:root:not([data-advanced="true"]) [data-advanced-only] {
+  display: none !important; }
+:root[data-advanced="true"] [data-advanced-gate] {
+  display: none !important; }
+.advanced-gate { max-width: 44rem; margin: 2rem auto; padding: 1.2rem 1.3rem;
+  border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--surface); font-family: system-ui, sans-serif; }
+.advanced-gate h1 { margin: 0 0 0.65rem; font-size: 1.35rem; }
+.advanced-gate p { margin: 0 0 1rem; color: var(--muted);
+  font-size: 0.92rem; line-height: 1.5; }
+.advanced-gate button { padding: 0.5rem 0.8rem; border: 1px solid var(--accent);
+  border-radius: 8px; background: var(--accent); color: var(--ground);
+  cursor: pointer; font: 700 0.82rem system-ui, sans-serif; }
+.advanced-gate button:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 3px; }
+.report-position { display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem 1.25rem; max-width: 44rem; margin: 1.4rem auto;
+  padding: 0.8rem 0.9rem; border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--surface); font-family: system-ui, sans-serif; }
+.report-position-label { min-width: 0; }
+.report-position-label span { display: block; color: var(--muted);
+  font-size: 0.68rem; font-weight: 750; letter-spacing: 0.08em;
+  text-transform: uppercase; }
+.report-position-label strong { display: block; margin-top: 0.12rem;
+  font-size: 0.92rem; line-height: 1.3; }
+.report-position-actions { display: flex; flex: none; flex-wrap: wrap;
+  align-items: center; justify-content: flex-end; gap: 0.45rem 0.75rem; }
+.report-position-actions a { color: var(--accent); font-size: 0.8rem;
+  font-weight: 700; text-decoration: none; }
+.report-position-actions a:hover { text-decoration: underline; }
+.report-position-actions .report-position-primary { padding: 0.42rem 0.65rem;
+  border: 1px solid var(--accent); border-radius: 7px; background: var(--accent);
+  color: var(--ground); }
+.report-position-actions .report-position-primary:hover { text-decoration: none;
+  filter: brightness(1.05); }
+.report-position-actions a:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 2px; }
+@media (max-width: 42rem) {
+  .match-nav { margin-bottom: 0.9rem; }
+  figure.board .scroll { padding: 0.45rem 0.35rem 0.2rem; }
+  .board-text ul { columns: 1; }
+  .report-position { align-items: stretch; flex-direction: column; }
+  .report-position-actions { justify-content: flex-start; }
+}
+.tablewrap { overflow-x: auto; max-width: 56rem; margin: 1.4rem auto; }
+table { border-collapse: collapse; font-family: system-ui, sans-serif;
+  font-size: 0.82rem; font-variant-numeric: tabular-nums;
+  min-width: 640px; width: 100%; }
+th { text-align: left; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; font-size: 0.68rem;
+  letter-spacing: 0.08em; }
+th, td { padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--rule); }
+tbody tr:nth-child(odd) { background: var(--surface); }
+.block-face { display: inline-flex; align-items: center; justify-content: center;
+  width: 1.45em; height: 1.45em; box-sizing: border-box; margin-right: 0.22em;
+  border: 1px solid currentColor; border-radius: 0.25em;
+  font-family: system-ui, sans-serif; font-weight: 800; line-height: 1;
+  color: var(--text); background: var(--surface); vertical-align: -0.16em; }
+.block-face.face-push { font-size: 1.02em; }
+.block-face.face-pow, .block-face.face-pow-push { color: var(--accent); }
+strong { font-weight: 700; }
+hr { border: none; border-top: 1px solid var(--rule); margin: 2.5rem auto;
+  max-width: 44rem; }
+
+.ui-feedback-toolbar { position: fixed; right: 1rem; bottom: 1rem;
+  z-index: 1300; display: flex; gap: 0.45rem; align-items: center;
+  max-width: calc(100vw - 2rem); padding: 0.5rem; border: 1px solid var(--rule);
+  border-radius: 10px; background: var(--surface); color: var(--ink);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+  font: 600 13px/1.3 system-ui, sans-serif; }
+.ui-feedback-toolbar button, .ui-feedback-dialog button {
+  min-height: 2rem; padding: 0.35rem 0.75rem; border: 1px solid var(--rule);
+  border-radius: 7px; background: var(--ground); color: var(--ink);
+  cursor: pointer; font: 650 13px/1.2 system-ui, sans-serif; }
+.ui-feedback-toolbar button:hover, .ui-feedback-dialog button:hover {
+  border-color: var(--accent); }
+.ui-feedback-toolbar button:focus-visible,
+.ui-feedback-dialog button:focus-visible,
+.ui-feedback-dialog textarea:focus-visible { outline: 2px solid var(--accent);
+  outline-offset: 2px; }
+.ui-feedback-toolbar .ui-feedback-toggle[aria-pressed="true"],
+.ui-feedback-dialog .ui-feedback-primary { border-color: var(--accent);
+  background: var(--accent); color: var(--ground); }
+.ui-feedback-count { min-width: 4.5rem; color: var(--muted);
+  text-align: center; }
+:root:not([data-advanced="true"]) .ui-feedback-toolbar { display: none; }
+:root[data-ui-feedback-active="true"] [data-ui-feedback-hover="true"] {
+  outline: 3px dashed var(--bb-ann, var(--accent)) !important;
+  outline-offset: 3px; cursor: crosshair !important; }
+:root[data-advanced="true"] .ui-feedback-has-note { box-shadow: inset 0 0 0 2px
+  var(--bb-ann, var(--accent)); }
+.ui-feedback-dialog { position: fixed; inset: 0; z-index: 1400;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem; background: rgba(0, 0, 0, 0.5); }
+.ui-feedback-dialog-box { width: min(42rem, 100%); max-height: calc(100vh - 2rem);
+  overflow: auto; box-sizing: border-box; padding: 1rem;
+  border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--surface); color: var(--ink);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  font-family: system-ui, sans-serif; }
+.ui-feedback-dialog h2 { margin: 0 0 0.35rem; font-size: 1.1rem; }
+.ui-feedback-dialog p { margin: 0 0 0.75rem; color: var(--muted);
+  font-size: 0.85rem; overflow-wrap: anywhere; }
+.ui-feedback-dialog label { display: block; margin-bottom: 0.35rem;
+  font-size: 0.82rem; font-weight: 700; }
+.ui-feedback-dialog textarea { width: 100%; min-height: 8rem;
+  box-sizing: border-box; padding: 0.6rem; border: 1px solid var(--rule);
+  border-radius: 7px; resize: vertical; background: var(--ground);
+  color: var(--ink); font: 14px/1.5 ui-monospace, "SF Mono", Menlo, monospace; }
+.ui-feedback-export textarea { min-height: 18rem; }
+.ui-feedback-dialog-actions { display: flex; flex-wrap: wrap;
+  gap: 0.5rem; margin-top: 0.75rem; }
+.ui-feedback-dialog-actions .ui-feedback-cancel { margin-left: auto; }
+@media (max-width: 34rem) {
+  .ui-feedback-toolbar { right: 0.5rem; bottom: 0.5rem;
+    max-width: calc(100vw - 1rem); flex-wrap: wrap; }
+  .ui-feedback-count { min-width: auto; }
+  .ui-feedback-dialog { padding: 0.5rem; }
+  .ui-feedback-dialog-box { max-height: calc(100vh - 1rem); }
+}
+</style>
+</head>
+<body>
+<script>
+(function () {
+  try {
+    document.documentElement.dataset.advanced =
+      localStorage.getItem('bb-replays:advanced-mode') === 'true' ?
+        'true' : 'false';
+  } catch (error) {
+    document.documentElement.dataset.advanced = 'false';
+  }
+})();
+</script>
+<main data-ui-feedback-anchor="document-content" data-ui-feedback-text-root>
+<nav class="match-nav" aria-label="Match pages" data-ui-feedback-anchor="match-navigation"><div class="match-nav-top"><a class="match-back" href="../">&#8592; All matches</a><div class="view-switch" data-ui-feedback-anchor="page-utilities"><label class="advanced-switch"><input type="checkbox" role="switch" data-advanced-toggle aria-label="Advanced mode" aria-checked="false"><span>Advanced mode</span></label></div></div><div class="match-nav-row"><div class="page-tabs" data-ui-feedback-anchor="page-tabs"><a href="./">Analysis</a><a href="report.html" class="active" aria-current="page">Match report</a><a href="dice-audit.html">Dice audit</a><a href="dice-on-ball.html" data-advanced-only>Dice on the ball</a><a href="replay.html">Standalone replay</a></div></div></nav><div class="eyebrow"><a href="https://fumbbl.com/p/match?id=4719385">FUMBBL match 4719385</a> · Sunny Coast Slam practice · 2026-07-18</div>
+<h1>Jawa brought knives. Dimitri brought a net.</h1>
+<p data-ui-feedback-text-anchor="p-6c1b7f9b99a2"><strong>Mahaha 0 – 2 Slam Union</strong></p>
+<p data-ui-feedback-text-anchor="p-6577e3a0fd9f"><em>Mahaha conceded, H2T3. Sunny Coast Slam practice, with no lasting consequences.</em></p>
+<p data-ui-feedback-text-anchor="p-d3a31829d06b">Very Sunny. Two Assassins. Two Witch Elves. Five stabs. Zero permanent injuries. Somewhere in the glare, Mahaha's murder mystery became a workplace comedy.</p>
+<p data-ui-feedback-text-anchor="p-1a911400f066">Jawa won the toss and kicked. That was not the safe Dark Elf choice. Receiving would have meant first blocks, first blood and a chance to make eleven Union elves feel like nine before halftime. Jawa wanted the more ambitious prize: attack Dimitri's offence at full strength, steal the ball or squeeze out an early score, then receive after the break. The plan had teeth. For six turns, it kept finding the carrier.</p>
+<p data-ui-feedback-text-anchor="p-2f95e6fe74e5">Dimitri answered with the least Elven Union opening imaginable. No passes. No hurry. The sun had put a tax on throwing, so the Leader Thrower picked up and Slam Union began an eight-turn trudge through a cloud of perfume, sharpened steel and terrible intentions.</p>
+<p data-ui-feedback-text-anchor="p-eee318b212b1">The first removal was almost the player who would decide the match. Slam Union's Frenzy Blitzer followed one block too far, ate the Dark Elf Wrestle lineman's reply and went to the KO box. Dimitri sent on the apothecary immediately. The Blitzer stayed on the pitch stunned, which looked like an expensive way to preserve a headache. By the end of the game he had made the winning sack and collected the MVP. Best fifty thousand Dimitri spent all night.</p>
+<p data-ui-feedback-text-anchor="p-649beb38040a">Mahaha did not merely rattle the cage. On turn three, Jawa ran a lineman through the missing corner and rolled one die at the ball. Push. Reroll. Push. The Union Wrestle lineman, flat on his back and apparently decorative, occupied the only square that could have supplied a second die. One prone elf, one square, one drive still alive.</p>
+<p data-ui-feedback-text-anchor="p-db38cbe7d7ce">Then the Union hit back. The Diving Tackle Blitzer badly hurt a Block Witch Elf and forced Jawa's apothecary to return her to reserves. The Leader Thrower escaped west on two rushes. A Catcher took over near the sideline, where a Witch Elf came within one difficult dodge of surfing player, ball and all. Another Catcher carried east behind one lonely screen, and Jawa reached him too. The first half was not a grind. It was a parcel being passed across a knife fight.</p>
+<aside class="report-position" id="h1t6-loose" data-ui-feedback-anchor="report-position-h1t6-loose"><div class="report-position-label"><span>Replay position</span><strong>end of Slam Union turn 6, half 1</strong></div><div class="report-position-actions"><a class="report-position-primary" href="replay.html#annotation=h1t6-loose">View in replay</a><a href="./#position=h1-eu-t6">Detailed analysis</a></div></aside>
+<p data-ui-feedback-text-anchor="p-9e7cd61a22be">Five block dice reached Union carriers across the half. None found a knockdown. That is cruel, but it is not the same as harmless. Mahaha kept opening the door; the ball simply refused to walk through it. Slam Union rebuilt the box on turn seven, handed off on turn eight and crossed for 1-0. Catch saved the final hand-off after the first roll came up 1. Even the touchdown wanted a little drama.</p>
+<p data-ui-feedback-text-anchor="p-4b1349c4e747">At halftime the assassinations ledger read five stabs, two stuns and no removals. The scoreboard was less kind.</p>
+<p data-ui-feedback-text-anchor="p-9496f2fee1b8">Then came <strong>Charge!</strong></p>
+<p data-ui-feedback-text-anchor="p-9f38879d3046">Five open Union players moved before Mahaha had an activation. The free blitz managed only a push, but it pinned an Assassin and poured Union shirts across the line. The kickoff did not steal the ball. It stole the clean patch of grass where Jawa meant to build the drive.</p>
+<aside class="report-position" id="h2t0-charge" data-ui-feedback-anchor="report-position-h2t0-charge"><div class="report-position-label"><span>Replay position</span><strong>end of Slam Union turn 0, half 2</strong></div><div class="report-position-actions"><a class="report-position-primary" href="replay.html#annotation=h2t0-charge">View in replay</a><a href="./#position=h2-kickoff">Detailed analysis</a></div></aside>
+<p data-ui-feedback-text-anchor="p-3afb60ac86cd">Mahaha's first turn was their best: three armour breaks and a clean pickup by the Leader Runner. It still ended face-down. An Assassin made his dodge, the Diving Tackle Blitzer objected, and a successful escape became a fall and a stun. On the reply, the Frenzy Blitzer lined up a sideline surf and rolled both-down against a lineman without Block. No crowd required. The lineman was knocked out on the spot, the only removal of the night that stayed removed.</p>
+<p data-ui-feedback-text-anchor="p-d277c9066d3d">Jawa built a proper four-corner cage. Dimitri did not charge it. He wrapped nine players around it and waited. The Diving Tackle Blitzer sat on both prone Assassins. Every useful advance began in a Union tacklezone. Mahaha could stay put and be strangled, or break for open grass and accept the dice. Jawa chose the break, and he was right to try it.</p>
+<p data-ui-feedback-text-anchor="p-9de084708fea">The order was the killer. One Blitzer crossed the screen and left a cage corner. Then a Witch Elf left the other western corner and rushed forward before the Leader Runner had moved. She rolled 1. Leader reroll. Another 1. Armour broken. Turn over. The breakout froze halfway through, with its runners ahead of the ball and both doors hanging open.</p>
+<aside class="report-position" id="h2t3-collapse" data-ui-feedback-anchor="report-position-h2t3-collapse"><div class="report-position-label"><span>Replay position</span><strong>end of Mahaha turn 3, half 2</strong></div><div class="report-position-actions"><a class="report-position-primary" href="replay.html#annotation=h2t3-collapse">View in replay</a><a href="./#position=h2-de-t3">Detailed analysis</a></div></aside>
+<p data-ui-feedback-text-anchor="p-789d28ce5f93">The preserved Frenzy Blitzer came through the gap on two Dodge-covered steps. The Leader Runner had Dump-Off and one legal ambition: throw through three tacklezones in Very Sunny weather. Seven-plus on a d6 meant natural 6 or bust. With a sack already arriving and the ball likely to spill, taking the one-in-six escape hatch was worth it.</p>
+<p data-ui-feedback-text-anchor="p-cd0721300b10">No six.</p>
+<p data-ui-feedback-text-anchor="p-dd18fb5ceaac">The pass fumbled. Both-down flattened the Runner. A Catcher picked up the loose ball, rushed and handed it to the other Catcher. Nerves of Steel held. Dodge held. One last rush held. Five consecutive 2+ rolls turned a defensive net into a touchdown in eleven seconds.</p>
+<p data-ui-feedback-text-anchor="p-dc2ea26b2326">Two-nil. Five turns remained. Jawa conceded, losing nothing but a practice result and gaining one useful conclusion: for the actual Sunny Coast Slam, Mahaha are out and the Slann are in.</p>
+<p data-ui-feedback-text-anchor="p-994ee0b11d0e">The knives were bad enough. Next time Dimitri gets frogs.</p>
+</main>
+<script>
+(function(){
+function detailText(token){
+  const d=token.dataset;
+  return d.posture+' · activation '+d.activation+' · added skills: '
+    +d.skills+' · '+d.coordinate+(d.carrier==='true'?' · ball carrier':'');
+}
+function showPlayer(figure,token,persist){
+  figure._playerDetailInvoker=token;
+  figure.querySelectorAll('.bb-player.is-selected').forEach(
+    candidate=>candidate.classList.remove('is-selected'));
+  token.classList.add('is-selected');
+  if(persist)figure.dataset.selectedPlayer=
+    token.dataset.label+'|'+token.dataset.coordinate;
+  const card=figure.querySelector('.board-player-detail');
+  card.querySelector('strong').textContent=token.dataset.label;
+  card.querySelector('.board-player-fields').textContent=detailText(token);
+  card.hidden=false;
+}
+function clearPlayer(figure){
+  figure.querySelectorAll('.bb-player.is-selected').forEach(
+    token=>token.classList.remove('is-selected'));
+  delete figure.dataset.selectedPlayer;
+  const card=figure.querySelector('.board-player-detail');
+  card.hidden=true;
+}
+function restorePlayer(figure){
+  const playerId=figure.dataset.selectedPlayer;
+  const selected=playerId&&Array.from(figure.querySelectorAll('.bb-player'))
+    .find(token=>token.dataset.label+'|'+token.dataset.coordinate===playerId);
+  if(selected)showPlayer(figure,selected,false);else clearPlayer(figure);
+}
+function dismissPlayer(figure){
+  const token=figure._playerDetailInvoker;
+  clearPlayer(figure);
+  if(token&&token.isConnected){
+    figure._suppressPlayerFocus=token;
+    token.focus();
+  }
+}
+document.querySelectorAll('figure.board[data-board-mode]').forEach(figure=>{
+  const viewport=figure.querySelector('.scroll');
+  const modeButtons=figure.querySelectorAll('[data-board-mode-button]');
+  modeButtons.forEach(button=>button.addEventListener('click',()=>{
+    const mode=button.dataset.boardModeButton;
+    figure.dataset.boardMode=mode;
+    modeButtons.forEach(candidate=>candidate.setAttribute(
+      'aria-pressed',String(candidate===button)));
+    viewport.setAttribute('aria-label',viewport.dataset.boardLabel+', '
+      +(mode==='fit'?'fit view':'full-size scroll view'));
+    if(mode==='fit'){viewport.scrollLeft=0;viewport.scrollTop=0;}
+  }));
+  viewport.addEventListener('keydown',event=>{
+    if(figure.dataset.boardMode!=='full'||event.target!==viewport)return;
+    const steps={ArrowLeft:[-48,0],ArrowRight:[48,0],ArrowUp:[0,-48],
+      ArrowDown:[0,48]};
+    const step=steps[event.key];if(!step)return;
+    event.preventDefault();viewport.scrollLeft+=step[0];viewport.scrollTop+=step[1];
+  });
+  figure.querySelectorAll('.bb-player').forEach(token=>{
+    token.addEventListener('pointerenter',()=>showPlayer(figure,token,false));
+    token.addEventListener('pointerleave',()=>{
+      restorePlayer(figure);
+    });
+    token.addEventListener('focus',()=>{
+      if(figure._suppressPlayerFocus===token){
+        delete figure._suppressPlayerFocus;return;
+      }
+      showPlayer(figure,token,false);
+    });
+    token.addEventListener('blur',()=>restorePlayer(figure));
+    token.addEventListener('click',()=>showPlayer(figure,token,true));
+    token.addEventListener('keydown',event=>{
+      if(event.key==='Enter'||event.key===' '){
+        event.preventDefault();showPlayer(figure,token,true);
+      } else if(event.key==='Escape'){clearPlayer(figure);token.focus();}
+    });
+  });
+  figure.querySelector('.board-player-detail button').addEventListener(
+    'click',()=>dismissPlayer(figure));
+});
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  const key = 'bb-replays:advanced-mode';
+  const root = document.documentElement;
+  const toggles = [...document.querySelectorAll('[data-advanced-toggle]')];
+
+  function apply(enabled, persist) {
+    root.dataset.advanced = enabled ? 'true' : 'false';
+    toggles.forEach(function (toggle) {
+      toggle.checked = enabled;
+      toggle.setAttribute('aria-checked', String(enabled));
+    });
+    if (persist) {
+      try { localStorage.setItem(key, String(enabled)); } catch (error) {}
+    }
+    document.dispatchEvent(new CustomEvent('bbadvancedchange', {
+      detail: { enabled: enabled }
+    }));
+  }
+
+  const enabled = root.dataset.advanced === 'true';
+  apply(enabled, false);
+  toggles.forEach(function (toggle) {
+    toggle.addEventListener('change', function () {
+      apply(toggle.checked, true);
+    });
+  });
+  document.querySelectorAll('[data-advanced-enable]').forEach(
+    function (button) {
+      button.addEventListener('click', function () { apply(true, true); });
+    });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  const root = document.documentElement;
+  const storageKey = 'bbnotes:' + location.pathname + ':ui';
+  const uiTargetSelector = [
+    '[data-ui-feedback-anchor]', 'button', 'a', 'input', 'select',
+    'textarea', 'summary', 'label', 'fieldset', '[aria-label]', '[title]',
+    '[role="button"]', '[role="region"]', '[role="group"]',
+    '[role="radiogroup"]', '[role="img"]'
+  ].join(',');
+  const textTargetSelector = [
+    '[data-ui-feedback-text-root] p',
+    '[data-ui-feedback-text-root] li',
+    '[data-ui-feedback-text-root] .tablewrap',
+    '[data-ui-feedback-text-root] h2',
+    '[data-ui-feedback-text-root] h3',
+    '[data-ui-feedback-text-root] figure.board'
+  ].join(',');
+  let notes = {};
+  let active = false;
+  let activeMode = null;
+  let hovered = null;
+  let dialog = null;
+  let dialogInvoker = null;
+
+  try { notes = JSON.parse(localStorage.getItem(storageKey) || '{}'); }
+  catch (error) { notes = {}; }
+  Object.keys(notes).forEach(function (key) {
+    if (key.startsWith('ui:') || key.startsWith('text:')) return;
+    notes['ui:' + key] = Object.assign({kind: 'ui'}, notes[key]);
+    delete notes[key];
+  });
+
+  function slug(value) {
+    return String(value || '').toLowerCase().replace(/&/g, ' and ')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 64) ||
+      'control';
+  }
+
+  function ownName(element) {
+    if (element.id) return element.id;
+    if (element.dataset.playerIndex) return 'player-' + element.dataset.playerIndex;
+    if (element.dataset.boardModeButton) {
+      return 'diagram-' + element.dataset.boardModeButton;
+    }
+    if (element.name) {
+      return element.name + (element.value ? '-' + element.value : '');
+    }
+    const semanticParent = element.parentElement && element.parentElement.closest(
+      '[id], [data-feedback-anchor], [data-replay-beat], [data-replay-moment]');
+    if (semanticParent) {
+      const parentName = semanticParent.id ||
+        semanticParent.dataset.feedbackAnchor ||
+        semanticParent.dataset.replayBeat || semanticParent.dataset.replayMoment;
+      return parentName + '-' + (element.getAttribute('aria-label') ||
+        element.textContent || element.tagName);
+    }
+    return element.getAttribute('aria-label') ||
+      element.getAttribute('title') || element.textContent || element.tagName;
+  }
+
+  function uiAnchorFor(element) {
+    if (element.dataset.uiFeedbackAnchor) {
+      return slug(element.dataset.uiFeedbackAnchor);
+    }
+    const context = element.parentElement &&
+      element.parentElement.closest('[data-ui-feedback-anchor]');
+    const prefix = context ? slug(context.dataset.uiFeedbackAnchor) : 'page';
+    return prefix + ':' + slug(element.tagName) + '-' + slug(ownName(element));
+  }
+
+  function textAnchorFor(element) {
+    if (element.dataset.feedbackAnchor) {
+      return slug(element.dataset.feedbackAnchor);
+    }
+    if (element.id) return slug(element.id);
+    if (element.dataset.uiFeedbackTextAnchor) {
+      return element.dataset.uiFeedbackTextAnchor;
+    }
+    const tag = element.matches('.tablewrap') ? 'table' :
+      element.matches('figure.board') ? 'figure' : element.tagName.toLowerCase();
+    const semanticParent = element.parentElement && element.parentElement.closest(
+      '[id], [data-feedback-anchor], [data-replay-beat], [data-replay-moment]');
+    const context = semanticParent ? (semanticParent.id ||
+      semanticParent.dataset.feedbackAnchor || semanticParent.dataset.replayBeat ||
+      semanticParent.dataset.replayMoment) : '';
+    const content = String(element.textContent || '').trim().replace(/\s+/g, ' ');
+    const identity = tag + '|' + context + '|' + content;
+    let hash = 2166136261;
+    for (let index = 0; index < identity.length; index += 1) {
+      hash = Math.imul(hash ^ identity.charCodeAt(index), 16777619);
+    }
+    element.dataset.uiFeedbackTextAnchor = tag + '-' + slug(content) + '-' +
+      (hash >>> 0).toString(36);
+    return element.dataset.uiFeedbackTextAnchor;
+  }
+
+  function noteKeyFor(element, kind) {
+    return kind + ':' + (kind === 'text' ? textAnchorFor(element) :
+      uiAnchorFor(element));
+  }
+
+  function uniqueTextTarget(element) {
+    const anchor = textAnchorFor(element);
+    let matches = 0;
+    document.querySelectorAll(textTargetSelector).forEach(function (candidate) {
+      if (textAnchorFor(candidate) === anchor) matches += 1;
+    });
+    return matches === 1;
+  }
+
+  function describe(element) {
+    const label = element.getAttribute('aria-label') ||
+      element.getAttribute('title') || element.textContent || '';
+    const cleaned = label.trim().replace(/\s+/g, ' ').slice(0, 100);
+    return element.tagName.toLowerCase() + (cleaned ? ' “' + cleaned + '”' : '');
+  }
+
+  function pitchOrientation() {
+    const viewer = document.querySelector(
+      '[data-ui-feedback-anchor="replay-viewer"]');
+    if (!viewer) return 'not applicable';
+    const effective = viewer.dataset.pitchOrientation || 'unknown';
+    const choice = viewer.dataset.pitchOrientationChoice || 'unknown';
+    return choice === 'auto' ? effective + ' (auto)' : effective;
+  }
+
+  function viewerMode() {
+    const viewer = document.querySelector(
+      '[data-ui-feedback-anchor="replay-viewer"]');
+    const fullscreen = Boolean(viewer && viewer.dataset.fullscreen === 'true') ||
+      Boolean(document.fullscreenElement ||
+      document.querySelector('.vfullscreen-fallback'));
+    return fullscreen ? 'fullscreen' : 'windowed';
+  }
+
+  function savedOrientation(item) {
+    if (item.pitchOrientation) return item.pitchOrientation;
+    const match = String(item.position || '').match(
+      /(?:^|[&#])orientation=([^&]+)/);
+    return match ? decodeURIComponent(match[1]) + ' (effective unknown)' :
+      'unknown';
+  }
+
+  function targetFrom(node) {
+    if (!(node instanceof Element) || node.closest('[data-ui-feedback-ignore]')) {
+      return null;
+    }
+    const selector = activeMode === 'text' ?
+      textTargetSelector : uiTargetSelector;
+    const target = node.closest(selector);
+    if (target && activeMode === 'text' && !uniqueTextTarget(target)) return null;
+    if (target && notes[noteKeyFor(target, activeMode || 'ui')]) {
+      target.classList.add('ui-feedback-has-note');
+    }
+    return target;
+  }
+
+  function persist() {
+    try { localStorage.setItem(storageKey, JSON.stringify(notes)); }
+    catch (error) {}
+    refresh();
+  }
+
+  function noteCountText() {
+    const count = Object.keys(notes).length;
+    return count + ' note' + (count === 1 ? '' : 's');
+  }
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'ui-feedback-toolbar';
+  toolbar.dataset.uiFeedbackIgnore = 'true';
+  toolbar.setAttribute('role', 'region');
+  toolbar.setAttribute('aria-label', 'UI feedback');
+  toolbar.innerHTML =
+    '<button type="button" class="ui-feedback-toggle" aria-pressed="false">' +
+      'Annotate UI</button>' +
+    '<button type="button" class="ui-feedback-toggle ui-feedback-text-toggle" ' +
+      'aria-pressed="false">Annotate text</button>' +
+    '<span class="ui-feedback-count" aria-live="polite"></span>' +
+    '<button type="button" class="ui-feedback-export-button">Export</button>' +
+    '<button type="button" class="ui-feedback-clear-button">Clear</button>';
+  document.body.append(toolbar);
+  const toggle = toolbar.querySelector('.ui-feedback-toggle');
+  const textToggle = toolbar.querySelector('.ui-feedback-text-toggle');
+  const count = toolbar.querySelector('.ui-feedback-count');
+
+  function setMode(mode) {
+    activeMode = mode && root.dataset.advanced === 'true' ? mode : null;
+    active = Boolean(activeMode);
+    root.dataset.uiFeedbackActive = String(active);
+    root.dataset.uiFeedbackMode = activeMode || '';
+    toggle.setAttribute('aria-pressed', String(activeMode === 'ui'));
+    textToggle.setAttribute('aria-pressed', String(activeMode === 'text'));
+    toggle.textContent = activeMode === 'ui' ? 'Finish UI' : 'Annotate UI';
+    textToggle.textContent = activeMode === 'text' ?
+      'Finish text' : 'Annotate text';
+    if (!active && hovered) {
+      hovered.removeAttribute('data-ui-feedback-hover');
+      hovered = null;
+    }
+    if (!active) closeDialog();
+  }
+
+  function refresh() {
+    count.textContent = noteCountText();
+    document.querySelectorAll('.ui-feedback-has-note').forEach(function (element) {
+      element.classList.remove('ui-feedback-has-note');
+    });
+    document.querySelectorAll(uiTargetSelector).forEach(function (element) {
+      markElement(element, 'ui');
+    });
+    document.querySelectorAll(textTargetSelector).forEach(function (element) {
+      markElement(element, 'text');
+    });
+  }
+
+  function markElement(element, kind) {
+    if (!element.closest('[data-ui-feedback-ignore]') &&
+        (kind !== 'text' || uniqueTextTarget(element)) &&
+        notes[noteKeyFor(element, kind)]) {
+      element.classList.add('ui-feedback-has-note');
+    }
+  }
+
+  function markAddedTargets(node) {
+    if (!(node instanceof Element) || node.closest('[data-ui-feedback-ignore]')) {
+      return;
+    }
+    if (node.matches(uiTargetSelector)) markElement(node, 'ui');
+    if (node.matches(textTargetSelector)) markElement(node, 'text');
+    node.querySelectorAll(uiTargetSelector).forEach(function (element) {
+      markElement(element, 'ui');
+    });
+    node.querySelectorAll(textTargetSelector).forEach(function (element) {
+      markElement(element, 'text');
+    });
+  }
+
+  function closeDialog() {
+    if (!dialog) return;
+    dialog.remove();
+    dialog = null;
+    if (dialogInvoker && dialogInvoker.isConnected) dialogInvoker.focus();
+    dialogInvoker = null;
+  }
+
+  function makeDialog(className, title, description) {
+    closeDialog();
+    dialogInvoker = document.activeElement;
+    dialog = document.createElement('div');
+    dialog.className = 'ui-feedback-dialog ' + className;
+    dialog.dataset.uiFeedbackIgnore = 'true';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'ui-feedback-dialog-title');
+    dialog.innerHTML = '<div class="ui-feedback-dialog-box">' +
+      '<h2 id="ui-feedback-dialog-title"></h2><p></p></div>';
+    dialog.querySelector('h2').textContent = title;
+    dialog.querySelector('p').textContent = description;
+    (document.fullscreenElement || document.body).append(dialog);
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) closeDialog();
+    });
+    return dialog.querySelector('.ui-feedback-dialog-box');
+  }
+
+  function openEditor(element) {
+    const kind = activeMode || 'ui';
+    const anchor = kind === 'text' ? textAnchorFor(element) : uiAnchorFor(element);
+    const key = kind + ':' + anchor;
+    const existing = notes[key] || {};
+    const label = describe(element);
+    const box = makeDialog('ui-feedback-editor',
+      kind === 'text' ? 'Text note' : 'UI note',
+      label + ' · ' + (kind === 'ui' ? 'ui:' : '') + anchor);
+    box.insertAdjacentHTML('beforeend',
+      '<label for="ui-feedback-note">What should change?</label>' +
+      '<textarea id="ui-feedback-note"></textarea>' +
+      '<div class="ui-feedback-dialog-actions">' +
+        '<button type="button" class="ui-feedback-primary">Save</button>' +
+        '<button type="button" class="ui-feedback-remove">Remove</button>' +
+        '<button type="button" class="ui-feedback-cancel">Cancel</button>' +
+      '</div>');
+    const textarea = box.querySelector('textarea');
+    textarea.placeholder = kind === 'text' ?
+      'Describe the editorial change' : 'Describe the interface issue';
+    textarea.value = existing.note || '';
+    textarea.focus();
+    box.querySelector('.ui-feedback-primary').onclick = function () {
+      const value = textarea.value.trim();
+      if (value) {
+        notes[key] = {
+          kind: kind,
+          note: value,
+          snippet: label,
+          viewport: innerWidth + 'x' + innerHeight,
+          theme: root.dataset.theme ||
+            (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+          position: location.hash || 'page default',
+          pitchOrientation: pitchOrientation(),
+          viewerMode: viewerMode()
+        };
+      } else {
+        delete notes[key];
+      }
+      persist();
+      closeDialog();
+    };
+    box.querySelector('.ui-feedback-remove').onclick = function () {
+      delete notes[key];
+      persist();
+      closeDialog();
+    };
+    box.querySelector('.ui-feedback-cancel').onclick = closeDialog;
+  }
+
+  function feedbackMarkdown() {
+    const page = location.pathname.split('/').filter(Boolean).slice(-2).join('/') ||
+      document.title;
+    const lines = [
+      '# Feedback on ' + document.title,
+      '',
+      'Page: ' + page,
+      'Viewport: ' + innerWidth + 'x' + innerHeight + ' CSS px',
+      ''
+    ];
+    Object.keys(notes).sort().forEach(function (key) {
+      const item = notes[key];
+      const kind = item.kind || (key.startsWith('text:') ? 'text' : 'ui');
+      const anchor = key.replace(/^(?:ui|text):/, '');
+      const snippet = String(item.snippet || 'interface control')
+        .replace(/\s+/g, ' ').slice(0, 100);
+      lines.push('- [' + (kind === 'ui' ? 'ui:' : '') + anchor + '] "' +
+        snippet + '..."');
+      item.note.split('\n').forEach(function (line) { lines.push('  > ' + line); });
+      lines.push('  > Context: viewport ' + item.viewport + '; theme ' + item.theme +
+        '; pitch orientation ' + savedOrientation(item) + '; view ' +
+        (item.viewerMode || 'unknown') + '; position ' +
+        (item.position || 'page default'));
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+
+  function openExport() {
+    const text = feedbackMarkdown();
+    const box = makeDialog('ui-feedback-export', 'Export feedback',
+      noteCountText() + ' · compatible with tools/import_feedback.py');
+    box.insertAdjacentHTML('beforeend',
+      '<label for="ui-feedback-export-text">Markdown feedback</label>' +
+      '<textarea id="ui-feedback-export-text" readonly></textarea>' +
+      '<div class="ui-feedback-dialog-actions">' +
+        '<button type="button" class="ui-feedback-primary">Copy</button>' +
+        '<button type="button" class="ui-feedback-download">Download .md</button>' +
+        '<button type="button" class="ui-feedback-cancel">Close</button>' +
+      '</div>');
+    const textarea = box.querySelector('textarea');
+    textarea.value = text;
+    textarea.focus();
+    textarea.select();
+    box.querySelector('.ui-feedback-primary').onclick = function () {
+      textarea.select();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).catch(function () {
+          document.execCommand('copy');
+        });
+      } else {
+        document.execCommand('copy');
+      }
+    };
+    box.querySelector('.ui-feedback-download').onclick = function () {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(new Blob([text], {type: 'text/markdown'}));
+      link.download = 'ui-feedback_' +
+        (location.pathname.split('/').pop() || 'page').replace(/\.html$/, '') + '.md';
+      link.click();
+      setTimeout(function () { URL.revokeObjectURL(link.href); }, 0);
+    };
+    box.querySelector('.ui-feedback-cancel').onclick = closeDialog;
+  }
+
+  toggle.onclick = function () {
+    setMode(activeMode === 'ui' ? null : 'ui');
+  };
+  textToggle.onclick = function () {
+    setMode(activeMode === 'text' ? null : 'text');
+  };
+  toolbar.querySelector('.ui-feedback-export-button').onclick = openExport;
+  toolbar.querySelector('.ui-feedback-clear-button').onclick = function () {
+    if (Object.keys(notes).length &&
+        confirm('Delete all feedback notes for this page?')) {
+      notes = {};
+      persist();
+    }
+  };
+
+  function highlightTarget(target) {
+    if (target === hovered) return;
+    if (hovered) hovered.removeAttribute('data-ui-feedback-hover');
+    hovered = target;
+    if (hovered) hovered.dataset.uiFeedbackHover = 'true';
+  }
+
+  document.addEventListener('pointerover', function (event) {
+    if (!active || dialog) return;
+    highlightTarget(targetFrom(event.target));
+  }, true);
+
+  document.addEventListener('focusin', function (event) {
+    if (!active || dialog) return;
+    highlightTarget(targetFrom(event.target));
+  }, true);
+
+  document.addEventListener('click', function (event) {
+    if (!active || dialog) return;
+    const target = targetFrom(event.target);
+    if (!target) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    openEditor(target);
+  }, true);
+
+  document.addEventListener('keydown', function (event) {
+    if (dialog && event.key === 'Tab') {
+      const focusable = [...dialog.querySelectorAll(
+        'button:not([disabled]), textarea:not([disabled]), input:not([disabled]), ' +
+        'select:not([disabled]), [href], [tabindex]:not([tabindex="-1"])')]
+        .filter(function (element) { return element.offsetParent !== null; });
+      if (focusable.length) {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+      return;
+    }
+    if (event.key === 'Escape') {
+      if (dialog) closeDialog();
+      else if (active) setMode(null);
+    }
+  });
+  document.addEventListener('bbadvancedchange', function (event) {
+    if (!event.detail.enabled) setMode(null);
+  });
+  document.addEventListener('fullscreenchange', function () {
+    (document.fullscreenElement || document.body).append(toolbar);
+  });
+  new MutationObserver(function (records) {
+    if (!Object.keys(notes).length) return;
+    records.forEach(function (record) {
+      record.addedNodes.forEach(markAddedTargets);
+    });
+  }).observe(document.body, {childList: true, subtree: true});
+  refresh();
+})();
+</script>
+</body>
+</html>
